@@ -1,0 +1,27 @@
+{
+  "name": "Zer",
+  "version": "0.0.1",
+  "description": "A chrome helper",
+  "options_page": "options.html",
+  "omnibox": { "keyword" : "z" },
+  "permissions": [
+    "tabs"
+  ],
+  "icons": {
+    "16": "images/logo.png"
+  },
+  "background": {
+    "scripts": ["main.js"],
+    "persistent": false
+  },
+   "browser_action": {
+    "default_icon": "images/logo.png"
+  },
+  "icons": {
+    "16": "images/logo.png",
+    "32": "images/logo.png",
+    "48": "images/logo.png",
+    "128": "images/logo.png"
+  },
+  "manifest_version": 2
+}
