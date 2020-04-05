@@ -7,7 +7,7 @@ A personal Chrome extension in development.
 ### Quick locate
 
 1. `z + tab`, turn on Zer extension prompt.
-2. Type a `key + keywords` splited by space of `:`, for example `z zer chrome extension`
+2. Type `key + keywords` split by space or `:`, for example `z zer-chrome-extension`
 
 KeyList:
 
