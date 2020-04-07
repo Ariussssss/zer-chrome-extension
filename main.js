@@ -2,8 +2,8 @@ const ZER_CONFIG = {
   regUri: {
     b: {
       description: "b: bilibili",
-      handler: keyword =>
-        `https://search.bilibili.com/all?keyword=${keyword}&from_source=nav_search_new`
+      uri:
+        "https://search.bilibili.com/all?keyword=__keyword__&from_source=nav_search_new"
     },
     ba: {
       description: "ba: bilibili new",
@@ -11,29 +11,37 @@ const ZER_CONFIG = {
     },
     g: {
       description: "g: github",
-      handler: keyword =>
-        `https://github.com/search?q=${keyword}&ref=opensearch`
+      uri: "https://github.com/search?q=__keyword__&ref=opensearch"
     },
     s: {
       description: "s: staroverflow",
-      handler: keyword => `https://stackoverflow.com/search?q=${keyword}`
+      uri: "https://stackoverflow.com/search?q=__keyword__"
+    },
+    ts: {
+      description: "ts: google translate",
+      uri:
+        "https://translate.google.cn/#view=home&op=translate&sl=en&tl=zh-CN&text=__keyword__"
     },
     y: {
       description: "y: youtube",
-      handler: keyword =>
-        `https://www.youtube.com/results?search_query=${keyword}&page=&utm_source=opensearch`
+      uri:
+        "https://www.youtube.com/results?search_query=__keyword__&page=&utm_source=opensearch"
     },
     z: {
       description: "z: zhihu",
-      handler: keyword =>
-        `https://www.zhihu.com/search?type=content&q=${keyword}`
+      uri: "https://www.zhihu.com/search?type=content&q=__keyword__"
     },
     default: {
       description: "default: google",
-      handler: keyword =>
-        `https://www.google.com/search?q=${keyword}&oq=${keyword}`
-    },
+      uri: "https://www.google.com/search?q=__keyword__&oq=__keyword__"
+    }
   }
+};
+
+const KEYWORD = "__keyword__";
+
+const replaceAll = (base, text, feature = KEYWORD) => {
+  return base.split(feature).join(text);
 };
 
 const getKeyFromText = text => {
@@ -68,10 +76,10 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
   const res = getKeyFromText(text);
   if (res) {
     const [cfg, val] = res;
-    if (cfg.uri) {
-      redirect(cfg.uri);
+    if (cfg.uri.includes(KEYWORD)) {
+      if (val) redirect(replaceAll(cfg.uri, val));
     } else {
-      if (val) redirect(cfg.handler(val));
+      redirect(cfg.uri);
     }
   } else {
     redirect(ZER_CONFIG.regUri.default.handler(text));
