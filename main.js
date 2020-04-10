@@ -5,22 +5,43 @@ const ZER_CONFIG = {
       uri:
         "https://search.bilibili.com/all?keyword=__keyword__&from_source=nav_search_new"
     },
-    ba: {
-      description: "ba: bilibili new",
+    bf: {
+      description: "bf: bilibili new",
       uri: "https://t.bilibili.com/?tab=8"
+    },
+    e: {
+      description: "e: chrome extensions",
+      uri: "chrome://extensions/"
+    },
+    es: {
+      description: "es: chrome extensions shop",
+      uri: "https://chrome.google.com/webstore/category/extensions?hl=en-US"
     },
     g: {
       description: "g: github",
       uri: "https://github.com/search?q=__keyword__&ref=opensearch"
     },
+    p: {
+      description: "p: pix",
+      uri: "https://www.pixiv.net/en/"
+    },
     s: {
       description: "s: staroverflow",
       uri: "https://stackoverflow.com/search?q=__keyword__"
     },
-    ts: {
-      description: "ts: google translate",
+    tc: {
+      description: "tc: google translate",
       uri:
         "https://translate.google.cn/#view=home&op=translate&sl=en&tl=zh-CN&text=__keyword__"
+    },
+    te: {
+      description: "te: gooogle translate to English",
+      uri:
+      "https://translate.google.cn/#view=home&op=translate&sl=zh-CN&tl=en&text=__keyword__"
+    },
+    v: {
+      description: "v: v2ex"
+      uri: "https://www.v2ex.com/"
     },
     y: {
       description: "y: youtube",
