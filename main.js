@@ -40,7 +40,7 @@ const ZER_CONFIG = {
       "https://translate.google.cn/#view=home&op=translate&sl=zh-CN&tl=en&text=__keyword__"
     },
     v: {
-      description: "v: v2ex"
+      description: "v: v2ex",
       uri: "https://www.v2ex.com/"
     },
     y: {
@@ -103,6 +103,6 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
       redirect(cfg.uri);
     }
   } else {
-    redirect(ZER_CONFIG.regUri.default.handler(text));
+    redirect(replaceAll(ZER_CONFIG.regUri.default.uri, text));
   }
 });
