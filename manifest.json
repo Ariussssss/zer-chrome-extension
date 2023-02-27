@@ -3,18 +3,15 @@
   "version": "0.0.1",
   "description": "A chrome helper",
   "options_page": "options.html",
-  "omnibox": { "keyword" : "z" },
-  "permissions": [
-    "tabs"
-  ],
+  "omnibox": { "keyword": "z" },
+  "permissions": ["tabs"],
   "icons": {
     "16": "images/logo.png"
   },
   "background": {
-    "scripts": ["main.js"],
-    "persistent": false
+    "service_worker": "main.js"
   },
-   "browser_action": {
+  "action": {
     "default_icon": "images/logo.png"
   },
   "icons": {
@@ -23,5 +20,5 @@
     "48": "images/logo.png",
     "128": "images/logo.png"
   },
-  "manifest_version": 2
+  "manifest_version": 3
 }
