@@ -1,12 +1,18 @@
 class GroupManagerApp {
-  constructor() {}
+  private groups: Record<number, { lastActive?: number }>;
+  constructor() {
+    this.groups = {};
+  }
 
   init() {
     this.listenForCommands();
+    this.watchTabsAndGroups();
     console.clear();
   }
 
   async toggleIndex(index: number) {
+    console.info("this.groups", this.groups);
+
     let group = await this.getGroupByIndex(index);
     if (group) {
       // Toggle the current group open/closed.
@@ -17,7 +23,7 @@ class GroupManagerApp {
       this.fixGlitch();
 
       // If all groups are collapsed, switch to the default group.
-      const tabId = (await chrome.tabs.query({ groupId: group.id }))?.[0]?.id;
+      const tabId = this.groups?.[group.id]?.lastActive ?? (await chrome.tabs.query({ groupId: group.id }))?.[0]?.id;
       if (tabId) chrome.tabs.update(tabId, { active: true });
     } else {
       const tabId = (await chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }))?.[index]?.id;
@@ -31,6 +37,23 @@ class GroupManagerApp {
       console.info('request', request);
       this?.[request.command]?.(...(request?.params ?? []));
     });
+  }
+
+  async fetchTabsAndGroups() {
+    const allGroups = await chrome.tabGroups.query({});
+
+    // Update the groups in our internal mapping.
+    allGroups.map(group => {
+      this.groups[group.id] = { ...(this.groups[group.id] || {}), ...group };
+    });
+
+    // Update last active tab in its group.
+    const activeTab = (await chrome.tabs.query({ active: true, windowId: chrome.windows.WINDOW_ID_CURRENT }))[0];
+    if (activeTab) {
+      this.groups[activeTab.groupId] = this.groups?.[activeTab.groupId] ?? {};
+      this.groups[activeTab.groupId].lastActive = activeTab.id;
+    }
+    console.info("fetchTabsAndGroups", this.groups);
   }
 
   getGroupByIndex(index) {
@@ -70,6 +93,9 @@ class GroupManagerApp {
         }),
       300
     );
+  }
+  watchTabsAndGroups() {
+    chrome.tabs.onActivated.addListener(() => this.fetchTabsAndGroups());
   }
 }
 
