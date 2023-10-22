@@ -10,8 +10,31 @@ class GroupManagerApp {
     console.clear();
   }
 
+  async moveToIndexGroup(index: number) {
+    console.info('this.groups', this.groups);
+
+    let group = await this.getGroupByIndex(index);
+    const currentTab = (await chrome.tabs.query({ active: true, windowId: chrome.windows.WINDOW_ID_CURRENT }))[0];
+    console.info('currentTab', currentTab);
+    if (group) {
+      if (currentTab && currentTab.groupId !== group.id && currentTab.id) {
+        if (currentTab.groupId && this.groups[currentTab.groupId]) {
+          this.groups[currentTab.groupId].lastActive = undefined;
+        }
+        chrome.tabs.group({
+          groupId: group.id,
+          tabIds: [currentTab.id]
+        });
+      }
+    } else if (currentTab && currentTab.id){
+      chrome.tabs.group({
+	tabIds: [currentTab.id]
+      });
+    }
+  }
+
   async toggleIndex(index: number) {
-    console.info("this.groups", this.groups);
+    console.info('this.groups', this.groups);
 
     let group = await this.getGroupByIndex(index);
     if (group) {
@@ -26,7 +49,13 @@ class GroupManagerApp {
       const tabId = this.groups?.[group.id]?.lastActive ?? (await chrome.tabs.query({ groupId: group.id }))?.[0]?.id;
       if (tabId) chrome.tabs.update(tabId, { active: true });
     } else {
-      const tabId = (await chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }))?.[index]?.id;
+      const tabId = (
+        await chrome.tabs.query({
+          active: true,
+          index,
+          windowId: chrome.windows.WINDOW_ID_CURRENT
+        })
+      )?.[0]?.id;
       if (tabId) chrome.tabs.update(tabId, { active: true });
     }
   }
@@ -53,7 +82,7 @@ class GroupManagerApp {
       this.groups[activeTab.groupId] = this.groups?.[activeTab.groupId] ?? {};
       this.groups[activeTab.groupId].lastActive = activeTab.id;
     }
-    console.info("fetchTabsAndGroups", this.groups);
+    console.info('fetchTabsAndGroups', this.groups);
   }
 
   getGroupByIndex(index) {
