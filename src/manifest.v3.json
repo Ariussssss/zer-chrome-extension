@@ -1,0 +1,23 @@
+{
+  "name": "Zer",
+  "version": "0.0.2",
+  "description": "A chrome helper",
+  "manifest_version": 3,
+  "omnibox": { "keyword": "z" },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "activeTab", "scripting", "tabs", "tabGroups", "windows"],
+  "icons": {
+    "16": "images/logo.png",
+    "32": "images/logo.png",
+    "48": "images/logo.png",
+    "128": "images/logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["js/main.js"]
+    }
+  ]
+}

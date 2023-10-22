@@ -1,6 +1,26 @@
+# mac
+.DS_Store
+
+# test
+coverage
+*.log
+
+# node
+node_modules
+
+# python
+__pycache__
+
+# vscode
+.vscode
+
 # Emacs
 *~
 \#*\#
 .\#*
+.ignore
 
 .DS_Store
+node_modules
+dist
+output
