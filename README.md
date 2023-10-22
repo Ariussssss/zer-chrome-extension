@@ -1,65 +1,25 @@
-# chrome-extension-boilerplate
+# Zer-Chrome-Extension
 
-A chrome extension boilerplate by Webpack5 + TS + React
-
-## Features
-
-- Support manifest v2 and v3
-- Support HMR
-- Support react fast refresh
-- Support auto reload when content scripts change
-- Support dynamic generate content scripts
-- Support use vscode to debug content scripts, popup page, options page and background
-- Out of the box Eslint and Prettier configurations
-- Intelligence when you change manifest config (only v2)
-
-> Major features is by [chrome-extension-reloader-webpack-plugin](https://github.com/njzydark/chrome-extension-reloader-webpack-plugin), you can use this plugin to create own your project
-
-## Demo Video
-
-https://user-images.githubusercontent.com/19601720/127956421-8d6521dd-f6cf-460b-8e5f-750b5acea3a3.mp4
+A personal Chrome extension in development.
 
 ## Usage
 
-```bash
-# install dependcy
-npm i
-# development
-npm run dev
-# build
-npm run build
-# analy build assets
-npm run analy
-```
+### Quick locate
 
-## Manifest Version
+1. `z + tab`, turn on Zer extension prompt.
+2. Type `key + keywords` split by space or `:`, for example `z zer-chrome-extension`
 
-change manifest version in `package.json`, default version is **2**
+KeyList:
 
-```json
-{
-  ...
-  "chromeExtension": {
-    "mainifest-version": 2 or 3
-  },
-  ...
-}
-```
+- b: bilibili
+- ba: bilibili followings
+- g: github
+- s: stackoverflow
+- y: YouTube
+- z: zhihu
+- Default: google
 
-## Content Scripts
+### Group manager
 
-All content script in `contents` directory will dynamic generate（**There can only be two levels of nesting**）
-
-```txt
-contents/test.ts 🆗
-
-contents/test/index.ts 🆗
-
-contents/test/a.ts 🚫
-
-contents/test/t/index.ts 🚫
-```
-
-## React Refresh
-
-This project is using custom plugin [https://github.com/njzydark/mini-react-refresh-webpack-plugin](https://github.com/njzydark/mini-react-refresh-webpack-plugin)
+- `Alt + number` to switch groups
+- `Alt + Shift + number` to move or create group for current tab
